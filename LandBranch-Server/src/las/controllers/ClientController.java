@@ -13,6 +13,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import las.db_utilities.DBConnection;
 import las.db_utilities.DBHandler;
 import las.models.Client;
+import las.models.Lot;
+import las.models.NominatedSuccessor;
 
 /**
  *
@@ -22,7 +24,7 @@ public class ClientController {
 
     private static final ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 
-    public static boolean addNewClient(Client client) throws ClassNotFoundException, SQLException {
+    public static boolean addNewClient(Client client,Lot lot,ArrayList<NominatedSuccessor> nominatedSuccessors) throws ClassNotFoundException, SQLException {
         try {
             readWriteLock.writeLock().lock();
             Connection conn = DBConnection.getDBConnection().getConnection();

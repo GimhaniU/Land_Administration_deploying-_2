@@ -5,9 +5,20 @@
  */
 package las.views;
 
+import SeverConnector.Connector;
+import java.net.MalformedURLException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import las.common_classes.PatternChecker;
+import las.controller.ClientController;
+import las.controller.LotController;
+import las.models.Client;
+import las.models.Lot;
 import las.models.NominatedSuccessor;
 
 /**
@@ -16,11 +27,34 @@ import las.models.NominatedSuccessor;
  */
 public class ApplicationForm1 extends javax.swing.JInternalFrame {
 
+    ClientController clientController;
+    LotController lotController;
     /**
      * Creates new form ApplicationForm1
      */
     public ApplicationForm1() {
         initComponents();
+         try {
+            Connector sConnector = Connector.getSConnector();
+            clientController = sConnector.getClientController();
+          lotController=  sConnector.getlotController();
+        } catch (RemoteException | SQLException | NotBoundException | MalformedURLException | ClassNotFoundException ex) {
+            Logger.getLogger(ApplicantForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            regNotext.setText(String.valueOf(clientController.getLastAddedClient().getRegNo() + 1));
+        } catch (RemoteException | SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(ApplicantForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        nameText.requestFocus();
+        namenotvalidlabel.setVisible(false);
+        nicnotvalidlabel.setVisible(false);
+        incomenotvalidlabel.setVisible(false);
+        registerButton.setEnabled(false);
+        //.setEnabled(false);
+        
     }
 
     /**
@@ -2249,12 +2283,9 @@ public class ApplicationForm1 extends javax.swing.JInternalFrame {
         
         ArrayList<NominatedSuccessor> nominatedSuccessorsList = new ArrayList();
         
-        for (int i = 0; i < nominated_successor_table.getRowCount(); i++) {
-            
-           NominatedSuccessor nominatedSuccessor = new NominatedSuccessor(Integer.parseInt((String) nominated_successor_table.getValueAt(i, 0)), (String) nominated_successor_table.getValueAt(i, 1),(String) nominated_successor_table.getValueAt(i, 2), (String) nominated_successor_table.getValueAt(i, 3), regNo,Double.parseDouble((String) nominated_successor_table.getValueAt(i, 4)),(String) nominated_successor_table.getValueAt(i, 5));
-              
-          nominatedSuccessorsList.add(nominatedSuccessor);
-            
+        for (int i = 0; i < nominated_successor_table.getRowCount(); i++) {            
+            NominatedSuccessor nominatedSuccessor = new NominatedSuccessor(Integer.parseInt((String) nominated_successor_table.getValueAt(i, 0)), (String) nominated_successor_table.getValueAt(i, 1),(String) nominated_successor_table.getValueAt(i, 2), (String) nominated_successor_table.getValueAt(i, 3), regNo,Double.parseDouble((String) nominated_successor_table.getValueAt(i, 4)),(String) nominated_successor_table.getValueAt(i, 5));
+            nominatedSuccessorsList.add(nominatedSuccessor);
         }
      
 
@@ -2268,17 +2299,16 @@ public class ApplicationForm1 extends javax.swing.JInternalFrame {
             incomenotvalidlabel.setVisible(true);
         } else {
 
-            Client client = new Client(regno, nic, aplicantName, DOB, telephoneNumber, address, annualincome, 0, 0, isMarried, marriedSons, unmarriedSons);
             try {
-                boolean addNewClient = ClientController.addNewClient(client);
-                if (addNewClient) {
-                    JOptionPane.showMessageDialog(rootPane, "applicant added successfully");
-                    resetFrame();
-                }
-            } catch (ClassNotFoundException | SQLException | RemoteException ex) {
-                Logger.getLogger(ApplicantForm.class.getName()).log(Level.SEVERE, null, ex);
-
+                Client client = new Client(regNo, name, nic, landNumber, lotNumber, address, annualincome, 1,0, isMarried, spouseName, isMale, marriedSons, unmarriedSons);
+                Lot lot = lotController.searchLot(lotNumber, landNumber);
+                lot.setPermitIssueDate(permitIssueDate);
+                lot.setPermitNumber(permitNumber);
+                clientController.addNewClient(client,lot,nominatedSuccessorsList);
+            } catch (RemoteException | SQLException | ClassNotFoundException ex) {
+                Logger.getLogger(ApplicationForm1.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
         }
 
     }//GEN-LAST:event_registerButtonActionPerformed

@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import las.controller.ClientController;
 import las.models.Client;
+import las.models.Lot;
+import las.models.NominatedSuccessor;
 
 /**
  *
@@ -26,8 +28,8 @@ public class ClientControllerImple extends UnicastRemoteObject implements Client
     }
 
     @Override
-    public boolean addNewClient(Client client) throws RemoteException, SQLException, ClassNotFoundException {
-       return clientController.addNewClient(client);//To change body of generated methods, choose Tools | Templates.
+    public boolean addNewClient(Client client,Lot lot,ArrayList<NominatedSuccessor> nominatedSuccessors) throws RemoteException, SQLException, ClassNotFoundException {
+       return clientController.addNewClient(client,lot,nominatedSuccessors);//To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

@@ -10,6 +10,8 @@ import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import las.models.Client;
+import las.models.Lot;
+import las.models.NominatedSuccessor;
 
 /**
  *
@@ -17,7 +19,7 @@ import las.models.Client;
  */
 public interface ClientController extends Remote {
 
-    public boolean addNewClient(Client client) throws RemoteException, SQLException,ClassNotFoundException;
+    public boolean addNewClient(Client client,Lot lot,ArrayList<NominatedSuccessor> nominatedSuccessors) throws RemoteException, SQLException,ClassNotFoundException;
 
     public Client searchClient(String NIC) throws RemoteException, SQLException,ClassNotFoundException;
 
