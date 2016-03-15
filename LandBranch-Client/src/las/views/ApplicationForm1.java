@@ -5,8 +5,10 @@
  */
 package las.views;
 
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import las.common_classes.PatternChecker;
+import las.models.NominatedSuccessor;
 
 /**
  *
@@ -70,6 +72,8 @@ public class ApplicationForm1 extends javax.swing.JInternalFrame {
         addNewLandButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         lotCombo = new javax.swing.JComboBox<>();
+        landNumberText = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         registerButton = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
@@ -93,7 +97,7 @@ public class ApplicationForm1 extends javax.swing.JInternalFrame {
         extentlabel3 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        lot_table = new javax.swing.JTable();
+        nominated_successor_table = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         NewApplicantDetailPanel1 = new javax.swing.JPanel();
         personalDetailPanel1 = new javax.swing.JPanel();
@@ -521,6 +525,14 @@ public class ApplicationForm1 extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Select lot:");
 
+        landNumberText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                landNumberTextActionPerformed(evt);
+            }
+        });
+
+        jLabel13.setText("Land Number");
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -534,25 +546,31 @@ public class ApplicationForm1 extends javax.swing.JInternalFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(landCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(addNewLandButton))
+                        .addGap(43, 43, 43)
+                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(lotCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(landNumberText, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addNewLandButton))
+                .addGap(238, 238, 238))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(landCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(landCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel1)
-                        .addComponent(addNewLandButton)))
+                        .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(landNumberText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(lotCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(27, Short.MAX_VALUE))
+                    .addComponent(lotCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addNewLandButton))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         registerButton.setText("Register");
@@ -739,24 +757,31 @@ public class ApplicationForm1 extends javax.swing.JInternalFrame {
 
         jPanel11.setBorder(javax.swing.BorderFactory.createTitledBorder("Added Successors"));
 
-        lot_table.setModel(new javax.swing.table.DefaultTableModel(
+        nominated_successor_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "SucNo", "Name", "NIC", "Portion", "Address"
+                "RegNo", "Name", "NIC", "Adress", "Portion", "Relationship"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, true, true, true, false
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, false, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        lot_table.getTableHeader().setReorderingAllowed(false);
-        jScrollPane3.setViewportView(lot_table);
+        nominated_successor_table.getTableHeader().setReorderingAllowed(false);
+        jScrollPane3.setViewportView(nominated_successor_table);
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -2190,24 +2215,24 @@ public class ApplicationForm1 extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
-        String regNo = regNotext.getText();
+        int regNo = Integer.parseInt(regNotext.getText());
         String name = nameText.getText();
         String nic = nicText.getText();
         String address = addressText.getText();
+        
         int isMarried = 1;
         if (singleStatusRButton.isSelected()) {
             isMarried = 0;
         }
         
-        int isMale=1;
+        int isMale = 1;
         if (femaleRButton.isSelected()) {
             isMale = 0;
         }
         
         int marriedSons = 0, unmarriedSons = 0;
         double annualincome = 0;
-        
-        String spouseName =spouseNameText.getText();
+        String spouseName = spouseNameText.getText();
         try {
             marriedSons = Integer.parseInt(marriedChildrenCountSpinner.getValue().toString());
             unmarriedSons = Integer.parseInt(unmarriedChildrenCountSpinner.getValue().toString());
@@ -2216,18 +2241,33 @@ public class ApplicationForm1 extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(rootPane, "OOps! Something Went Wrong!");
 
         }
-                
+        String landNumber = landNumberText.getText();
+        String lotNumber = String.valueOf(lotCombo.getSelectedItem());
+        
+        String permitNumber = permitNumberText.getText();
+        String permitIssueDate = permitIssueDateText.getText();
+        
+        ArrayList<NominatedSuccessor> nominatedSuccessorsList = new ArrayList();
+        
+        for (int i = 0; i < nominated_successor_table.getRowCount(); i++) {
+            
+           NominatedSuccessor nominatedSuccessor = new NominatedSuccessor(Integer.parseInt((String) nominated_successor_table.getValueAt(i, 0)), (String) nominated_successor_table.getValueAt(i, 1),(String) nominated_successor_table.getValueAt(i, 2), (String) nominated_successor_table.getValueAt(i, 3), regNo,Double.parseDouble((String) nominated_successor_table.getValueAt(i, 4)),(String) nominated_successor_table.getValueAt(i, 5));
+              
+          nominatedSuccessorsList.add(nominatedSuccessor);
+            
+        }
+     
+
         if (!PatternChecker.checkStringdirect(nameText.getText())) {
             namenotvalidlabel.setVisible(true);
-        }else if(!PatternChecker.checkStringdirect(spouseName)) {
-            spouseNameLabel.setVisible(true);    
+        } else if (!PatternChecker.checkStringdirect(spouseName)) {
+            spouseNameLabel.setVisible(true);
         } else if (!PatternChecker.checkNICdirect(nicText.getText())) {
             nicnotvalidlabel.setVisible(true);
         } else if (!PatternChecker.checkDecimaldirect(annualIncomeText.getText())) {
             incomenotvalidlabel.setVisible(true);
         } else {
-            
-            
+
             Client client = new Client(regno, nic, aplicantName, DOB, telephoneNumber, address, annualincome, 0, 0, isMarried, marriedSons, unmarriedSons);
             try {
                 boolean addNewClient = ClientController.addNewClient(client);
@@ -2546,7 +2586,7 @@ public class ApplicationForm1 extends javax.swing.JInternalFrame {
 
     private void add_lot_buttunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_lot_buttunActionPerformed
 
-        DefaultTableModel tableModel = (DefaultTableModel) lot_table.getModel();
+        DefaultTableModel tableModel = (DefaultTableModel) nominated_successor_table.getModel();
         Object[] rawdata = {sucNoText.getText(), sucNameText.getText(), sucNicText.getText(), sucPortionText.getText()};
         tableModel.addRow(rawdata);
         sucNameText.setText("");
@@ -2859,6 +2899,10 @@ public class ApplicationForm1 extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_sucAddressText2KeyReleased
 
+    private void landNumberTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_landNumberTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_landNumberTextActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Address;
@@ -2934,6 +2978,7 @@ public class ApplicationForm1 extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -2973,10 +3018,10 @@ public class ApplicationForm1 extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> landCombo;
     private javax.swing.JComboBox<String> landCombo1;
     private javax.swing.JComboBox<String> landCombo2;
+    private javax.swing.JTextField landNumberText;
     private javax.swing.JComboBox<String> lotCombo;
     private javax.swing.JComboBox<String> lotCombo1;
     private javax.swing.JComboBox<String> lotCombo2;
-    private javax.swing.JTable lot_table;
     private javax.swing.JTable lot_table1;
     private javax.swing.JTable lot_table2;
     private javax.swing.JLabel lotnolabel;
@@ -3004,6 +3049,7 @@ public class ApplicationForm1 extends javax.swing.JInternalFrame {
     private javax.swing.JLabel nicnotvalidlabel;
     private javax.swing.JLabel nicnotvalidlabel1;
     private javax.swing.JLabel nicnotvalidlabel2;
+    private javax.swing.JTable nominated_successor_table;
     private javax.swing.JTextField permitIssueDateText;
     private javax.swing.JTextField permitIssueDateText1;
     private javax.swing.JTextField permitIssueDateText2;
