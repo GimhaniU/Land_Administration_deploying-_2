@@ -44,12 +44,17 @@ public class ChangeGrantOwnershipForm extends javax.swing.JDialog {
         setLocationRelativeTo(null);
         setTitle("Change Grant Ownership");
         
-          try {
+        try {
             Connector sConnector = Connector.getSConnector();
-            GrantController=sConnector.getGrantController();
-        } catch (RemoteException | SQLException | NotBoundException | MalformedURLException|ClassNotFoundException ex) {
-            Logger.getLogger(ApplicantForm.class.getName()).log(Level.SEVERE, null, ex);
+            //    GrantController=sConnector.getGrantController();
+        } catch (NotBoundException ex) {
+            Logger.getLogger(ChangeGrantOwnershipForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(ChangeGrantOwnershipForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ChangeGrantOwnershipForm.class.getName()).log(Level.SEVERE, null, ex);
         }
+       
         
         this.grantno_changeOwnerCombo.setEditable(true);
         nic_text.requestFocus();
@@ -722,8 +727,8 @@ public class ChangeGrantOwnershipForm extends javax.swing.JDialog {
                 //int cur_PermitOwnership = this.grant.getClient().getPermitOwnershipPosition();
                 int cur_GrantOwnership = searchGrant.getClient().getGrantOwnershipPosition() + 1;//as grant ownership is changed
                 
-                Client newclient = new Client(nic, grantOwnerName, DOB, telephoneNumber, address, annualincome, ++cur_GrantOwnership, 0, isMarried, marriedSons, unmarriedSons);
-                searchGrant.setClient(newclient);
+               // Client newclient = new Client(nic, grantOwnerName, DOB, telephoneNumber, address, annualincome, ++cur_GrantOwnership, 0, isMarried, marriedSons, unmarriedSons);
+                //searchGrant.setClient(newclient);
                 try {
                     boolean changeGrantOwnership = GrantController.changeGrantOwnership(searchGrant);
                     if (changeGrantOwnership) {

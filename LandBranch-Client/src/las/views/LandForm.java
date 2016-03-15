@@ -1344,6 +1344,7 @@ public class LandForm extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_add_lot_buttunActionPerformed
 
     private void land_save_buttunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_land_save_buttunActionPerformed
+     /*
         DefaultTableModel dm1 = (DefaultTableModel) lot_table.getModel();
         if(dm1.getRowCount()!=0){
         Land land = new Land(plan_nummber_test.getText(), land_name_test.getText(), (String) gnd_number_combo.getSelectedItem(), land_west_test.getText(), land_east_test.getText(), land_north_test.getText(), land_south_test.getText());
@@ -1410,7 +1411,7 @@ public class LandForm extends javax.swing.JInternalFrame {
         else{
             JOptionPane.showMessageDialog(this, "Please add lots");
         }
-        
+       */ 
     }//GEN-LAST:event_land_save_buttunActionPerformed
 
     private void update_planNumber_comboItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_update_planNumber_comboItemStateChanged
@@ -1419,10 +1420,6 @@ public class LandForm extends javax.swing.JInternalFrame {
             Land searchLand = LandController.searchLand(selectedPlanNumber);
             if (searchLand != null) {
                 update_land_name.setText(searchLand.getLandName());
-                update_east_test.setText(searchLand.getEastBound());
-                update_north_test.setText(searchLand.getNorthBound());
-                update_south_test.setText(searchLand.getSouthBound());
-                update_west_test.setText(searchLand.getWestBound());
                 update_gnd_combo.addItem(searchLand.getDivisionNumber());
                 ArrayList<Lot> lotList = searchLand.getLotList();
                 DefaultTableModel modelULT = (DefaultTableModel) update_lot_table.getModel();
@@ -1443,7 +1440,8 @@ public class LandForm extends javax.swing.JInternalFrame {
         }
     }*/
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-        try {
+       /* 
+try {
             if (!PatternChecker.checkStringdirect(update_land_name.getText())) {
                 editlandnamenotvalidlabel.setVisible(true);
             } else if (update_land_name.getText().trim().length() == 0) {
@@ -1489,6 +1487,7 @@ public class LandForm extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Please Enter Data In Correct Formats.");
         }
 
+*/
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void search_planNumber_comboItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_search_planNumber_comboItemStateChanged
@@ -1497,10 +1496,6 @@ public class LandForm extends javax.swing.JInternalFrame {
             Land searchLand = LandController.searchLand(selectedPlanNumber);
             if (searchLand != null) {
                 search_land_name.setText(searchLand.getLandName());
-                search_east_test1.setText(searchLand.getEastBound());
-                search_north_test.setText(searchLand.getNorthBound());
-                search_south_test.setText(searchLand.getSouthBound());
-                search_west_test.setText(searchLand.getWestBound());
                 search_gnd_test.setText(searchLand.getDivisionNumber());
                 ArrayList<Lot> lotList = searchLand.getLotList();
                 DefaultTableModel modelULT = (DefaultTableModel) search_lot_table.getModel();
@@ -1523,7 +1518,7 @@ public class LandForm extends javax.swing.JInternalFrame {
             revalidate();
             ArrayList<Land> allLandDetail = LandController.getAllLandDetail();
             for (Land land : allLandDetail) {
-                Object[] rowdata = {land.getPlanNumber(), land.getDivisionNumber(), land.getLandName(), land.getWestBound(), land.getEastBound(), land.getNorthBound(), land.getSouthBound(), land.getNumberOfLot()};
+                Object[] rowdata = {land.getPlanNumber(), land.getDivisionNumber(), land.getLandName(), land.getNumberOfLot()};
                 viewAllModel.addRow(rowdata);
             }
         } catch (ClassNotFoundException | SQLException | RemoteException ex) {

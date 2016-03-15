@@ -48,7 +48,7 @@ public class ChangePermitOwnershipForm extends javax.swing.JDialog {
         
           try {
             Connector sConnector = Connector.getSConnector();
-            PermitController=sConnector.getPermitController();
+//            PermitController=sConnector.getPermitController();
             NominatedSuccessorController=sConnector.getnomiNominatedSuccessorController();
         } catch (RemoteException | SQLException | NotBoundException | MalformedURLException|ClassNotFoundException ex) {
             Logger.getLogger(ApplicantForm.class.getName()).log(Level.SEVERE, null, ex);
@@ -789,8 +789,8 @@ public class ChangePermitOwnershipForm extends javax.swing.JDialog {
              int cur_PermitOwnership=this.permit.getClient().getPermitOwnershipPosition();
         int cur_GrantOwnership=this.permit.getClient().getGrantOwnershipPosition();
             
-        Client newclient = new Client(nic, permitOwnerName, DOB, telephoneNumber, address, annualincome,  cur_GrantOwnership,++cur_PermitOwnership, isMarried, marriedSons, unmarriedSons);
-        permit.setClient(newclient);
+//        Client newclient = new Client(nic, permitOwnerName, DOB, telephoneNumber, address, annualincome,  cur_GrantOwnership,++cur_PermitOwnership, isMarried, marriedSons, unmarriedSons);
+  //      permit.setClient(newclient);
         try {
             boolean changePermitOwnership = PermitController.changePermitOwnership(permit);
             if(changePermitOwnership){

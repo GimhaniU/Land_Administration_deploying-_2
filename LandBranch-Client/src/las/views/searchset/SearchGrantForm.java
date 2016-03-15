@@ -30,7 +30,6 @@ import las.models.Grant;
 import las.views.ApplicantForm;
 import las.views.FrontPage;
 import las.views.GrantForm;
-import las.views.GrantForm2;
 import las.views.PermitForm;
 
 /**
@@ -63,8 +62,6 @@ public class SearchGrantForm extends SearchForm {
             try {
             Connector sConnector = Connector.getSConnector();
             ClientController=sConnector.getClientController();
-            GrantController=sConnector.getGrantController();
-            PermitController=sConnector.getPermitController();
             GramaNiladariDivisionController=sConnector.getGramaNiladariDivisionController();
             NominatedSuccessorController=sConnector.getnomiNominatedSuccessorController();
             LandController=sConnector.getLandController();
@@ -228,7 +225,7 @@ public class SearchGrantForm extends SearchForm {
                 try {
                     String division = GramaNiladariDivisionController.searchGND(grant.getLot().getLand().getDivisionNumber()).getDivisionName();
                     String land = grant.getLot().getLand().getLandName();
-                    Object[] rowdata = {grant.getGrantNumber(),grant.getGrantIssueDate(),grant.getPermit().getPermitNumber(), grant.getClient().getClientName(), grant.getClient().getNIC(), grant.getClient().getTelephone(), division, land, grant.getLot().getLotNumber()};
+                    Object[] rowdata = {grant.getGrantNumber(),grant.getGrantIssueDate(),grant.getPermit().getPermitNumber(), grant.getClient().getClientName(), grant.getClient().getNIC(), division, land, grant.getLot().getLotNumber()};
                     model.addRow(rowdata);
                 } catch (RemoteException ex) {
                     Logger.getLogger(SearchGrantForm.class.getName()).log(Level.SEVERE, null, ex);

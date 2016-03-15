@@ -52,8 +52,6 @@ public class ApplicantByDivisionDialog extends javax.swing.JDialog {
         try {
             Connector sConnector = Connector.getSConnector();
             ClientController = sConnector.getClientController();
-            GrantController=sConnector.getGrantController();
-            PermitController=sConnector.getPermitController();
             GramaNiladariDivisionController=sConnector.getGramaNiladariDivisionController();
             LotController=sConnector.getlotController();
             

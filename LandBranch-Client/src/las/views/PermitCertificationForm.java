@@ -53,7 +53,7 @@ public class PermitCertificationForm extends javax.swing.JInternalFrame {
         try {
             Connector sConnector = Connector.getSConnector();
             GramaNiladariDivisionController = sConnector.getGramaNiladariDivisionController();
-            PermitController = sConnector.getPermitController();
+//            PermitController = sConnector.getPermitController();
         } catch (NotBoundException | MalformedURLException | RemoteException | SQLException | ClassNotFoundException ex) {
             Logger.getLogger(PermitCertificationForm.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -63,6 +63,8 @@ public class PermitCertificationForm extends javax.swing.JInternalFrame {
         setTitle("Certifications to add");
 
         //////////////
+
+/*
         try {
             //this.gnd = GramaNiladariDivisionController.searchGND("406");
             //ArrayList<Permit> permitListToCertify = GramaNiladariDivisionController.getPermitsToCertify(gnd.getDivisionNumber());
@@ -87,7 +89,7 @@ public class PermitCertificationForm extends javax.swing.JInternalFrame {
         } catch (SQLException | ClassNotFoundException | RemoteException ex) {
             Logger.getLogger(PermitCertificationForm.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+*/
     }
 
     public PermitCertificationForm(java.awt.Frame parent, boolean modal,FrontPage fp) {

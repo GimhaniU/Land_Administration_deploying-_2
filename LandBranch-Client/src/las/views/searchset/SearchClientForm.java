@@ -60,8 +60,6 @@ public class SearchClientForm extends SearchForm {
             try {
             Connector sConnector = Connector.getSConnector();
             ClientController=sConnector.getClientController();
-            GrantController=sConnector.getGrantController();
-            PermitController=sConnector.getPermitController();
             GramaNiladariDivisionController=sConnector.getGramaNiladariDivisionController();
             NominatedSuccessorController=sConnector.getnomiNominatedSuccessorController();
             LandController=sConnector.getLandController();
@@ -221,7 +219,7 @@ public class SearchClientForm extends SearchForm {
                         } else {
                             grantNumber = "Not given";
                         }
-                        Object[] rowdata = {client.getNIC(), client.getClientName(), client.getBirthday(), client.getTelephone(), client.getAddress(), permitNumber, grantNumber};
+                        Object[] rowdata = {client.getNIC(), client.getClientName(),  client.getAddress(), permitNumber, grantNumber};
                         model.addRow(rowdata);
                     }
                 } else {
@@ -249,7 +247,7 @@ public class SearchClientForm extends SearchForm {
                         } else {
                             grantNumber = "Not given";
                         }
-                        Object[] rowdata = {client.getNIC(), client.getClientName(), client.getBirthday(), client.getTelephone(), client.getAddress(), permitNumber, grantNumber};
+                        Object[] rowdata = {client.getNIC(), client.getClientName(), client.getAddress(), permitNumber, grantNumber};
                         model.addRow(rowdata);
                     }
                 } else {

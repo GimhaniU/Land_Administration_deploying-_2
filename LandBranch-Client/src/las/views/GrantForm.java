@@ -63,8 +63,8 @@ public class GrantForm extends javax.swing.JInternalFrame {
         try {
             Connector sConnector = Connector.getSConnector();
             ClientController=sConnector.getClientController();
-            GrantController=sConnector.getGrantController();
-            PermitController=sConnector.getPermitController();
+//            GrantController=sConnector.getGrantController();
+  //          PermitController=sConnector.getPermitController();
             GramaNiladariDivisionController=sConnector.getGramaNiladariDivisionController();
             LotController=sConnector.getlotController();
             
@@ -382,9 +382,7 @@ public class GrantForm extends javax.swing.JInternalFrame {
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addComponent(permitnolabel, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(8, 8, 8))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                        .addComponent(add_grant_issuedate_label, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)))
+                    .addComponent(add_grant_issuedate_label, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(add_grant_permit_no_combo, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -525,10 +523,11 @@ public class GrantForm extends javax.swing.JInternalFrame {
                     .addComponent(add_grant_lotno_text, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel99))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel100)
-                    .addComponent(add_grant_acres_text, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel101))
+                    .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(add_grant_acres_text, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel101)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(add_grant_roods_text, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -689,9 +688,9 @@ public class GrantForm extends javax.swing.JInternalFrame {
                     .addComponent(add_grant_owner_annualIncome, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel40, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(add_grant_owner_no_of_children_test, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel41, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel41, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(add_grant_owner_no_of_children_test, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(add_grant_changeOwner)
                 .addContainerGap())
@@ -946,9 +945,7 @@ public class GrantForm extends javax.swing.JInternalFrame {
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addComponent(search_grantnolabel, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(8, 8, 8))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
-                        .addComponent(search_grant_issuedatelabel, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)))
+                    .addComponent(search_grant_issuedatelabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(search_grant_issuedateText, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1073,9 +1070,9 @@ public class GrantForm extends javax.swing.JInternalFrame {
                     .addComponent(jLabel21)
                     .addComponent(search_grant_ownernameText, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(search_grantowner_telephoneText, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel46))
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel46, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(search_grantowner_telephoneText, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel47)
@@ -1314,7 +1311,7 @@ public class GrantForm extends javax.swing.JInternalFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel14, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel14, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 833, Short.MAX_VALUE)
                     .addComponent(jPanel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 833, Short.MAX_VALUE)
                     .addComponent(jPanel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 833, Short.MAX_VALUE)
                     .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1474,12 +1471,15 @@ public class GrantForm extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_nominateSuccessorButtonActionPerformed
 
     private void add_grant_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_grant_buttonActionPerformed
+
+/*
         try {
+
             this.choosenPermit = PermitController.searchPermit(String.valueOf(add_grant_permit_no_combo.getSelectedItem()));
             if (choosenPermit!=null){
-                NominatedSuccessor nominatedSuccessor = new NominatedSuccessor(this.addgrant_S_nic_test.getText(), this.addgrant_S_name_test.getText(), this.addgrant_S_address_test.getText());
+//                NominatedSuccessor nominatedSuccessor = new NominatedSuccessor(this.addgrant_S_nic_test.getText(), this.addgrant_S_name_test.getText(), this.addgrant_S_address_test.getText());
                 Client searchClient = ClientController.searchClient(String.valueOf(this.add_grant_owner_nic_text.getText()));
-                Lot searchLot = LotController.searchLot(this.add_grant_lotno_text.getText());
+  //              Lot searchLot = LotController.searchLot(this.add_grant_lotno_text.getText());
                 Date date = this.addgrant_grant_issue_dateChooser.getDate();
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd");
                 String issueDate = simpleDateFormat.format(date);
@@ -1522,7 +1522,10 @@ public class GrantForm extends javax.swing.JInternalFrame {
 
         catch (ClassNotFoundException | SQLException|RemoteException ex) {
             Logger.getLogger(PermitForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
+  
+}
+
+*/
     }//GEN-LAST:event_add_grant_buttonActionPerformed
 
     private void addgrant_S_nic_testActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addgrant_S_nic_testActionPerformed
@@ -1555,8 +1558,6 @@ public class GrantForm extends javax.swing.JInternalFrame {
 
                 this.search_grant_owner_nic_text.setText(client.getNIC());
                 this.search_grant_ownernameText.setText(client.getClientName());
-                this.search_grantowner_telephoneText.setText(client.getTelephone());
-                this.search_grantowner_DOB_text.setText(client.getBirthday());
                 this.search_grantowner_addressText.setText(client.getAddress());
                 this.search_grant_owner_annualIncome.setText(String.valueOf(client.getAnnualIncome()));
                 this.search_grant_owner_no_of_children_text.setText(String.valueOf(client.getNumberOfMarriedSons() + client.getNumberOfUnmarriedSons()));
@@ -1602,7 +1603,7 @@ public class GrantForm extends javax.swing.JInternalFrame {
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(GramaNiladhariForm.class.getName()).log(Level.SEVERE, null, ex);
         } catch (RemoteException ex) {
-            Logger.getLogger(GrantForm2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GrantForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_viewAll_load_buttunActionPerformed
 
@@ -1642,8 +1643,6 @@ public class GrantForm extends javax.swing.JInternalFrame {
 
                 this.add_grant_owner_nic_text.setText(client.getNIC());
                 this.add_grant_ownernameText.setText(client.getClientName());
-                this.add_grantowner_telephoneText.setText(client.getTelephone());
-                this.add_grantowner_DOB_test.setText(client.getBirthday());
                 this.add_grantowner_addressText.setText(client.getAddress());
                 this.add_grant_owner_annualIncome.setText(String.valueOf(client.getAnnualIncome()));
                 this.add_grant_owner_no_of_children_test.setText(String.valueOf(client.getNumberOfMarriedSons() + client.getNumberOfUnmarriedSons()));
@@ -1703,8 +1702,6 @@ public class GrantForm extends javax.swing.JInternalFrame {
 
                 this.search_grant_owner_nic_text.setText(client.getNIC());
                 this.search_grant_ownernameText.setText(client.getClientName());
-                this.search_grantowner_telephoneText.setText(client.getTelephone());
-                this.search_grantowner_DOB_text.setText(client.getBirthday());
                 this.search_grantowner_addressText.setText(client.getAddress());
                 this.search_grant_owner_annualIncome.setText(String.valueOf(client.getAnnualIncome()));
                 this.search_grant_owner_no_of_children_text.setText(String.valueOf(client.getNumberOfMarriedSons() + client.getNumberOfUnmarriedSons()));
@@ -1830,20 +1827,13 @@ public class GrantForm extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane10;
-    private javax.swing.JScrollPane jScrollPane11;
-    private javax.swing.JScrollPane jScrollPane12;
-    private javax.swing.JScrollPane jScrollPane13;
     private javax.swing.JScrollPane jScrollPane14;
-    private javax.swing.JScrollPane jScrollPane15;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
-    private javax.swing.JScrollPane jScrollPane8;
-    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton nominateSuccessorButton;
     private javax.swing.JLabel permitnolabel;

@@ -45,7 +45,7 @@ public class LoginForm extends javax.swing.JFrame {
         try {
             Connector sConnector = Connector.getSConnector();
             UserController = sConnector.getUserController();
-            PermitController = sConnector.getPermitController();
+//            PermitController = sConnector.getPermitController();
         } catch (NotBoundException | MalformedURLException | RemoteException | SQLException | ClassNotFoundException ex) {
             Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
         }

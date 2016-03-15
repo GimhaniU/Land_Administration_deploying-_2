@@ -53,8 +53,6 @@ public class PermitForm extends javax.swing.JInternalFrame {
         try {
             Connector sConnector = Connector.getSConnector();
             ClientController = sConnector.getClientController();
-            GrantController = sConnector.getGrantController();
-            PermitController = sConnector.getPermitController();
             GramaNiladariDivisionController = sConnector.getGramaNiladariDivisionController();
             NominatedSuccessorController = sConnector.getnomiNominatedSuccessorController();
             LotController = sConnector.getlotController();
@@ -2101,6 +2099,7 @@ public class PermitForm extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_add_permit_division_name_testKeyReleased
 
     private void add_permit_lot_number_ComboItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_add_permit_lot_number_ComboItemStateChanged
+    /*
         try {
             Lot searchLot = LotController.searchLot(String.valueOf(add_permit_lot_number_Combo.getSelectedItem()));
             if (searchLot != null) {
@@ -2112,6 +2111,7 @@ public class PermitForm extends javax.swing.JInternalFrame {
         } catch (ClassNotFoundException | SQLException | RemoteException ex) {
             Logger.getLogger(PermitForm.class.getName()).log(Level.SEVERE, null, ex);
         }
+*/
     }//GEN-LAST:event_add_permit_lot_number_ComboItemStateChanged
 
     private void add_permit_lot_number_ComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_permit_lot_number_ComboActionPerformed
@@ -2172,9 +2172,7 @@ public class PermitForm extends javax.swing.JInternalFrame {
             Client searchClient = ClientController.searchClient((String) add_permit_nic_combo.getSelectedItem());
             if (searchClient != null) {
                 add_permit_nameText.setText(searchClient.getClientName());
-                add_permit_DOB_test.setText(searchClient.getBirthday());
                 add_permit_no_of_children_test.setText(String.valueOf(searchClient.getNumberOfMarriedSons() + searchClient.getNumberOfUnmarriedSons()));
-                add_permit_telephoneText.setText(searchClient.getTelephone());
                 if (searchClient.isMarried() == 0) {
                     add_permit_singleStatusRButton.setSelected(true);
                 } else {
@@ -2261,7 +2259,7 @@ public class PermitForm extends javax.swing.JInternalFrame {
         } else if (addpermit_NOS_address_test.getText().trim().length() == 0) {
             addressinvalidlabel.setVisible(true);
         } else {
-            try {
+        /*          try {
                 NominatedSuccessor nominatedSuccessor = new NominatedSuccessor(addpermit_NOS_nic_test.getText(), addpermit_NOS_name_test.getText(), addpermit_NOS_address_test.getText());
                 Client searchClient = ClientController.searchClient(String.valueOf(add_permit_nic_combo.getSelectedItem()));
                 Lot searchLot = LotController.searchLot(String.valueOf(add_permit_lot_number_Combo.getSelectedItem()));
@@ -2301,7 +2299,7 @@ public class PermitForm extends javax.swing.JInternalFrame {
                 }
             } catch (ClassNotFoundException | SQLException | RemoteException ex) {
                 Logger.getLogger(PermitForm.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            }*/
         }
     }//GEN-LAST:event_addpermit_add_permit_buttonActionPerformed
 
@@ -2437,9 +2435,7 @@ public class PermitForm extends javax.swing.JInternalFrame {
                 Lot lot = searchPermit.getLot();
                 String permitIssueDate = searchPermit.getPermitIssueDate();
                 cancelpermit_nameText.setText(client.getClientName());
-                cancelpermit_telephoneText.setText(client.getTelephone());
                 cancelPermit_clientNic.setText(client.getNIC());
-                cancelpermit_DOB_test.setText(client.getBirthday());
                 cancelpermit_addressText.setText(client.getAddress());
                 cancelpermit_annualIncome.setText(String.valueOf(client.getAnnualIncome()));
                 cancelpermit_no_of_children_test.setText(String.valueOf(client.getNumberOfMarriedSons() + client.getNumberOfUnmarriedSons()));
@@ -2537,7 +2533,7 @@ public class PermitForm extends javax.swing.JInternalFrame {
     private void cancelpermit_cancel_permit_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelpermit_cancel_permit_buttonActionPerformed
         int showConfirmDialog = JOptionPane.showConfirmDialog(this, "Do you want to cancel permit");
         if (showConfirmDialog == 0) {
-            try {
+           /* try {
                 NominatedSuccessor nominatedSuccessor = new NominatedSuccessor(cancelpermit_NOS_nic_test2.getText(), cancelpermit_NOS_name_test2.getText(), cancelpermit_NOS_address_test2.getText());
                 Client searchClient = ClientController.searchClient(cancelPermit_clientNic.getText());
                 Lot searchLot = LotController.searchLot(cancelPermitLotNumberTest.getText());
@@ -2573,6 +2569,7 @@ public class PermitForm extends javax.swing.JInternalFrame {
             } catch (ClassNotFoundException | SQLException | RemoteException ex) {
                 Logger.getLogger(PermitForm.class.getName()).log(Level.SEVERE, null, ex);
             }
+*/
         }
     }//GEN-LAST:event_cancelpermit_cancel_permit_buttonActionPerformed
     public void SetViewPermit(String permitno) {
@@ -2585,9 +2582,7 @@ public class PermitForm extends javax.swing.JInternalFrame {
                 Lot lot = searchPermit.getLot();
                 String permitIssueDate = searchPermit.getPermitIssueDate();
                 viewpermit_nameText1.setText(client.getClientName());
-                viewpermit_telephoneText1.setText(client.getTelephone());
-                viewPermit_clientNic1.setText(client.getNIC());
-                viewpermit_DOB_test1.setText(client.getBirthday());
+              viewPermit_clientNic1.setText(client.getNIC());
                 viewpermit_addressText1.setText(client.getAddress());
                 viewpermit_annualIncome1.setText(String.valueOf(client.getAnnualIncome()));
                 viewpermit_no_of_children_test1.setText(String.valueOf(client.getNumberOfMarriedSons() + client.getNumberOfUnmarriedSons()));

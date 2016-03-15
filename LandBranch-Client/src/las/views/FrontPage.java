@@ -79,7 +79,7 @@ public class FrontPage extends javax.swing.JFrame {
         try {
             Connector sConnector = Connector.getSConnector();
             UserController = sConnector.getUserController();
-            PermitController = sConnector.getPermitController();
+//            PermitController = sConnector.getPermitController();
             backUP = sConnector.getbBackUPController();
             GramaNiladariDivisionController = sConnector.getGramaNiladariDivisionController();
 

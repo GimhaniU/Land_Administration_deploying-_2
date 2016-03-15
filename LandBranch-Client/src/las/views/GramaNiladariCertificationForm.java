@@ -39,7 +39,7 @@ public class GramaNiladariCertificationForm extends javax.swing.JInternalFrame {
         try {
             Connector sConnector = Connector.getSConnector();
             GramaNiladariDivisionController = sConnector.getGramaNiladariDivisionController();
-            PermitController = sConnector.getPermitController();
+//            PermitController = sConnector.getPermitController();
         } catch (NotBoundException | MalformedURLException | RemoteException | SQLException | ClassNotFoundException ex) {
             Logger.getLogger(GramaNiladariCertificationForm.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -50,14 +50,14 @@ public class GramaNiladariCertificationForm extends javax.swing.JInternalFrame {
         //////////////
         try {
             this.gnd = GramaNiladariDivisionController.searchGND("406");
-            ArrayList<Permit> permitListToCertify = GramaNiladariDivisionController.getPermitsToCertify(gnd.getDivisionNumber());
+  /*          ArrayList<Permit> permitListToCertify = GramaNiladariDivisionController.getPermitsToCertify(gnd.getDivisionNumber());
             if (permitListToCertify.size() > 10) {
                 ((GridLayout) buttonPanel.getLayout()).setRows(permitListToCertify.size());
             }
             for (Permit p : permitListToCertify) {
                 buttonPanel.add(new JButton(p.getClient().getClientName()));
             }
-
+*/
             buttonPanel.setVisible(true);
         } catch (SQLException | ClassNotFoundException | RemoteException ex) {
             Logger.getLogger(GramaNiladariCertificationForm.class.getName()).log(Level.SEVERE, null, ex);
@@ -67,25 +67,28 @@ public class GramaNiladariCertificationForm extends javax.swing.JInternalFrame {
 
     public GramaNiladariCertificationForm(java.awt.Frame parent, boolean modal, GramaNiladariDivision gnd) {
         this();
+        /*
         try {
             /*
             this.gnd = gnd;
             
             ArrayList<Permit> permitListToCertify = GramaNiladariDivisionController.getPermitsToCertify(gnd.getDivisionNumber());
-            */
-            ArrayList<Permit> permitListToCertify = GramaNiladariDivisionController.getAllPermitsToCertify();
+            
+          ArrayList<Permit> permitListToCertify = GramaNiladariDivisionController.getAllPermitsToCertify();
             if (permitListToCertify.size() > 10) {
                 ((GridLayout) buttonPanel.getLayout()).setRows(permitListToCertify.size());
             }
             for (Permit p : permitListToCertify) {
                 buttonPanel.add(new JButton(p.getClient().getClientName()));
             }
+          
             buttonPanel.setVisible(true);
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(GramaNiladariCertificationForm.class.getName()).log(Level.SEVERE, null, ex);
         } catch (RemoteException ex) {
             Logger.getLogger(GramaNiladariCertificationForm.class.getName()).log(Level.SEVERE, null, ex);
         }
+        */
     }
 
 

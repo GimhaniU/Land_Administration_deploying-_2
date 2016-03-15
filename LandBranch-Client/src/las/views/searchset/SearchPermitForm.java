@@ -57,8 +57,6 @@ public class SearchPermitForm extends SearchForm {
         try {
             Connector sConnector = Connector.getSConnector();
             ClientController = sConnector.getClientController();
-            GrantController = sConnector.getGrantController();
-            PermitController = sConnector.getPermitController();
             GramaNiladariDivisionController = sConnector.getGramaNiladariDivisionController();
             NominatedSuccessorController = sConnector.getnomiNominatedSuccessorController();
             LandController = sConnector.getLandController();
@@ -205,7 +203,7 @@ public class SearchPermitForm extends SearchForm {
 
                         String division = GramaNiladariDivisionController.searchGND(permit.getLot().getLand().getDivisionNumber()).getDivisionName();
                         String land = permit.getLot().getLand().getLandName();
-                        Object[] rowdata = {permit.getPermitNumber(), permit.getPermitIssueDate(), permit.getClient().getClientName(), permit.getClient().getNIC(), permit.getClient().getTelephone(), division, land, permit.getLot().getLotNumber()};
+                        Object[] rowdata = {permit.getPermitNumber(), permit.getPermitIssueDate(), permit.getClient().getClientName(), permit.getClient().getNIC(), division, land, permit.getLot().getLotNumber()};
                         model.addRow(rowdata);
                     }
                 } else {
@@ -221,7 +219,7 @@ public class SearchPermitForm extends SearchForm {
 
                         String division = GramaNiladariDivisionController.searchGND(permit.getLot().getLand().getDivisionNumber()).getDivisionName();
                         String land = permit.getLot().getLand().getLandName();
-                        Object[] rowdata = {permit.getPermitNumber(), permit.getPermitIssueDate(), permit.getClient().getClientName(), permit.getClient().getNIC(), permit.getClient().getTelephone(), division, land, permit.getLot().getLotNumber()};
+                        Object[] rowdata = {permit.getPermitNumber(), permit.getPermitIssueDate(), permit.getClient().getClientName(), permit.getClient().getNIC(), division, land, permit.getLot().getLotNumber()};
                         model.addRow(rowdata);
                     }
                 } else {
@@ -237,7 +235,7 @@ public class SearchPermitForm extends SearchForm {
 
                         String division = GramaNiladariDivisionController.searchGND(permit.getLot().getLand().getDivisionNumber()).getDivisionName();
                         String land = permit.getLot().getLand().getLandName();
-                        Object[] rowdata = {permit.getPermitNumber(), permit.getPermitIssueDate(), permit.getClient().getClientName(), permit.getClient().getNIC(), permit.getClient().getTelephone(), division, land, permit.getLot().getLotNumber()};
+                        Object[] rowdata = {permit.getPermitNumber(), permit.getPermitIssueDate(), permit.getClient().getClientName(), permit.getClient().getNIC(),  division, land, permit.getLot().getLotNumber()};
                         model.addRow(rowdata);
                     }
                 } else {

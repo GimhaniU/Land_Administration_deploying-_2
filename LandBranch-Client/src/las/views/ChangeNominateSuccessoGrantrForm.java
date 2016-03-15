@@ -50,7 +50,7 @@ public class ChangeNominateSuccessoGrantrForm extends javax.swing.JDialog {
         
           try {
             Connector sConnector = Connector.getSConnector();
-            GrantController=sConnector.getGrantController();
+//            GrantController=sConnector.getGrantController();
             NominatedSuccessorController=sConnector.getnomiNominatedSuccessorController();
             
         } catch (RemoteException | SQLException | NotBoundException | MalformedURLException|ClassNotFoundException ex) {
@@ -402,16 +402,17 @@ public class ChangeNominateSuccessoGrantrForm extends javax.swing.JDialog {
         //  NominatedSuccessor successor=new NominatedSuccessor(nic_text.getText(), ns_name_text.getText(), address_text.getText());
         //add this to database
         try {
-            NominatedSuccessor successor = new NominatedSuccessor(nic_text.getText(), ns_name_text.getText(), address_text.getText());
+  //          NominatedSuccessor successor = new NominatedSuccessor(nic_text.getText(), ns_name_text.getText(), address_text.getText());
             Grant searchGrant = GrantController.searchGrant(String.valueOf(grant_number_combo.getSelectedItem()));
             if (searchGrant != null) {
-                boolean changeNominatedSuccessorGrant = GrantController.changeNominatedSuccessorGrant(searchGrant, successor);
+              /*  boolean changeNominatedSuccessorGrant = GrantController.changeNominatedSuccessorGrant(searchGrant, successor);
                 if (changeNominatedSuccessorGrant) {
                     JOptionPane.showMessageDialog(this, "Nominate Successor Changed");
                     this.setVisible(false);
                 } else {
                     JOptionPane.showMessageDialog(this, "Nominanted Successor does not Changed");
                 }
+                */
             }
 
         } catch (ClassNotFoundException | SQLException | RemoteException ex) {

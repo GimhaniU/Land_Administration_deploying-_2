@@ -41,7 +41,7 @@ public class ChangeNominateSuccessoOfPermitrForm extends javax.swing.JDialog {
           try {
             Connector sConnector = Connector.getSConnector();
             NominatedSuccessorController =sConnector.getnomiNominatedSuccessorController();
-            PermitController =sConnector.getPermitController();
+//            PermitController =sConnector.getPermitController();
         } catch (RemoteException | SQLException | NotBoundException | MalformedURLException|ClassNotFoundException ex) {
             Logger.getLogger(ApplicantForm.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -79,12 +79,12 @@ public class ChangeNominateSuccessoOfPermitrForm extends javax.swing.JDialog {
         nicInvalidLabel.setVisible(false);
     }
 
-    public ChangeNominateSuccessoOfPermitrForm(GrantForm2 parent, Permit choosenpermit) {
+    public ChangeNominateSuccessoOfPermitrForm(GrantForm parent, Permit choosenpermit) {
 
     }
 
     //to view gui for grant successor nomination
-    public ChangeNominateSuccessoOfPermitrForm(GrantForm2 parent, boolean modal, Grant grant) {
+    public ChangeNominateSuccessoOfPermitrForm(GrantForm parent, boolean modal, Grant grant) {
         //this(parent, modal);
 
     }
@@ -372,9 +372,9 @@ public class ChangeNominateSuccessoOfPermitrForm extends javax.swing.JDialog {
        }
        else{ 
         try {
-            NominatedSuccessor successor = new NominatedSuccessor(nic_text.getText(), ns_name_text.getText(), address_text.getText());
+//            NominatedSuccessor successor = new NominatedSuccessor(nic_text.getText(), ns_name_text.getText(), address_text.getText());
             Permit searchPermit = PermitController.searchPermit(String.valueOf(permit_number_combo.getSelectedItem()));
-            
+  /*          
             boolean changeNominatedSuccessorPermit = PermitController.changeNominatedSuccessorPermit(searchPermit, successor);
             if (changeNominatedSuccessorPermit){
                 JOptionPane.showMessageDialog(this, "Nominate Successor Changed");
@@ -382,7 +382,7 @@ public class ChangeNominateSuccessoOfPermitrForm extends javax.swing.JDialog {
             }else{
                 JOptionPane.showMessageDialog(this, "Nominanted Successor does not Changed");
             }
-            
+    */        
           
         } catch (ClassNotFoundException | SQLException|RemoteException ex) {
             Logger.getLogger(ChangeNominateSuccessoOfPermitrForm.class.getName()).log(Level.SEVERE, null, ex);
