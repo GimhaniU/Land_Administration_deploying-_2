@@ -38,12 +38,30 @@ public class ClientController {
         }
     }
 
-    public static Client searchClient(String NIC) throws ClassNotFoundException, SQLException {
+    public static Client searchClientByNIC(String NIC) throws ClassNotFoundException, SQLException {
         try {
             readWriteLock.readLock().lock();
 
             Connection conn = DBConnection.getDBConnection().getConnection();
             String sql = "Select * from Client where NIC='" + NIC + "'";
+            ResultSet rst = DBHandler.getData(conn, sql);
+            if (rst.next()) {
+                Client client = new Client(rst.getInt("RegNo"),rst.getString("ClientName"), rst.getString("NIC"), rst.getString("LandNumber"), rst.getString("LotNumber"), rst.getString("Address"), rst.getDouble("AnnualIncome"), rst.getInt("PermitOwnershipPosition"), rst.getInt("GrantOwnershipPosition"), rst.getInt("MarriedStatus"),rst.getString("SpouseName") ,rst.getInt("Gender"),rst.getInt("NumberOfMarriedSons"), rst.getInt("NumberOfUnmarriedSons"));
+                return client;
+            } else {
+                return null;
+            }
+        } finally {
+            readWriteLock.readLock().unlock();
+        }
+    }
+    
+    public static Client searchClient(String regNo) throws ClassNotFoundException, SQLException {
+        try {
+            readWriteLock.readLock().lock();
+
+            Connection conn = DBConnection.getDBConnection().getConnection();
+            String sql = "Select * from Client where regNo='" + regNo + "'";
             ResultSet rst = DBHandler.getData(conn, sql);
             if (rst.next()) {
                 Client client = new Client(rst.getInt("RegNo"),rst.getString("ClientName"), rst.getString("NIC"), rst.getString("LandNumber"), rst.getString("LotNumber"), rst.getString("Address"), rst.getDouble("AnnualIncome"), rst.getInt("PermitOwnershipPosition"), rst.getInt("GrantOwnershipPosition"), rst.getInt("MarriedStatus"),rst.getString("SpouseName") ,rst.getInt("Gender"),rst.getInt("NumberOfMarriedSons"), rst.getInt("NumberOfUnmarriedSons"));
