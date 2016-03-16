@@ -25,9 +25,17 @@ public class ClientController {
     private static final ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 
     public static boolean addNewClient(Client client,Lot lot,ArrayList<NominatedSuccessor> nominatedSuccessors) throws ClassNotFoundException, SQLException {
+        
+        
+        
+        
         try {
             readWriteLock.writeLock().lock();
             Connection conn = DBConnection.getDBConnection().getConnection();
+            
+            
+            
+            
             String sql = "Insert into Client Values('"+client.getRegNo()+"','" + client.getClientName()+ "','" + client.getNIC()+ "','" + client.getLandnumber() + "','" + client.getLotnumber() + "','" + client.getAddress() + "','" + client.getAnnualIncome() + "','" + client.getPermitOwnershipPosition()+ "','" + client.getGrantOwnershipPosition()+ "','" + client.isMarried() + "','"+client.getSpouseName()+"','"+client.getGender()+"','" + client.getNumberOfMarriedSons() + "','" + client.getNumberOfUnmarriedSons() + "')";
             int returnValue = DBHandler.setData(conn, sql);
 
