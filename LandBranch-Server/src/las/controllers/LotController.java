@@ -46,7 +46,7 @@ public class LotController {
             ResultSet rst = DBHandler.getData(conn, sql);
             if (rst.next()) {
                 Land searchLand = LandController.searchLand(landNumber);
-                Lot lot = new Lot(landNumber,lotNumber, rst.getInt("numberOfAcres"),rst.getInt("NumberOfRoods"), rst.getInt("NumberOfPerches"),rst.getString("permitNumber"),rst.getString("permitIssueDate"),rst.getString("grantNumber"),rst.getString("grantIssueDate"),searchLand );               
+                Lot lot = new Lot(landNumber,lotNumber, rst.getInt("numberOfAcres"),rst.getInt("NumberOfRoods"), rst.getInt("NumberOfPerches"),rst.getString("permitNumber"),rst.getString("permitIssueDate"),rst.getInt("is_p_certified"),rst.getString("grantNumber"),rst.getString("grantIssueDate"),searchLand );               
                 return lot;
             } else {
                 return null;
@@ -66,7 +66,7 @@ public class LotController {
             ArrayList<Lot> lotList = new ArrayList();
             while (rst.next()) {
                 Land searchLand = LandController.searchLand(landNumber);
-                Lot lot = new Lot(landNumber,rst.getString("lotNumber"), rst.getInt("numberOfAcres"),rst.getInt("NumberOfRoods"), rst.getInt("NumberOfPerches"),rst.getString("permitNumber"),rst.getString("permitIssueDate"),rst.getString("grantNumber"),rst.getString("grantIssueDate"),searchLand );               
+                Lot lot = new Lot(landNumber,rst.getString("lotNumber"), rst.getInt("numberOfAcres"),rst.getInt("NumberOfRoods"), rst.getInt("NumberOfPerches"),rst.getString("permitNumber"),rst.getString("permitIssueDate"),rst.getInt("is_p_certified"),rst.getString("grantNumber"),rst.getString("grantIssueDate"),searchLand );               
                 lotList.add(lot);
             }
             return lotList;
@@ -79,12 +79,12 @@ public class LotController {
         try {
             readWriteLock.readLock().lock();
             Connection conn = DBConnection.getDBConnection().getConnection();
-            String sql = "Select * from Lot where landNumber='" + landNumber + "' and isAvailabal = 0 ";
+            String sql = "Select * from Lot where landNumber='" + landNumber + "' and permitnumber is null and grantnumber is null ";
             ResultSet rst = DBHandler.getData(conn, sql);
             ArrayList<Lot> lotList = new ArrayList();
             while (rst.next()) {
                 Land searchLand = LandController.searchLand(landNumber);
-                Lot lot = new Lot(landNumber,rst.getString("lotNumber"), rst.getInt("numberOfAcres"),rst.getInt("NumberOfRoods"), rst.getInt("NumberOfPerches"),rst.getString("permitNumber"),rst.getString("permitIssueDate"),rst.getString("grantNumber"),rst.getString("grantIssueDate"),searchLand );               
+                Lot lot = new Lot(landNumber,rst.getString("lotNumber"), rst.getInt("numberOfAcres"),rst.getInt("NumberOfRoods"), rst.getInt("NumberOfPerches"),rst.getString("permitNumber"),rst.getString("permitIssueDate"),rst.getInt("is_p_certified"),rst.getString("grantNumber"),rst.getString("grantIssueDate"),searchLand );               
                 lotList.add(lot);
             }
             return lotList;
@@ -107,16 +107,16 @@ public class LotController {
         }
     }
 
-    public static Lot getLastAddedLot() throws ClassNotFoundException, SQLException {
+    public static Lot getLastAddedLot(String landnumber) throws ClassNotFoundException, SQLException {
         try {
             readWriteLock.readLock().lock();
 
             Connection conn = DBConnection.getDBConnection().getConnection();
-            String sql = "Select * From Lot order by lotNumber Desc limit 1";
+            String sql = "Select * From Lot order by lotNumber Desc limit 1 where landnumber='"+landnumber+"'";
             ResultSet rst = DBHandler.getData(conn, sql);
             if (rst.next()) {
-                Land searchLand = LandController.searchLand(rst.getString("landNumber"));
-                Lot lot = new Lot(rst.getString("landNumber"),rst.getString("lotNumber"), rst.getInt("numberOfAcres"),rst.getInt("NumberOfRoods"), rst.getInt("NumberOfPerches"),rst.getString("permitNumber"),rst.getString("permitIssueDate"),rst.getString("grantNumber"),rst.getString("grantIssueDate"),searchLand );               
+                Land searchLand = LandController.searchLand(landnumber);
+                Lot lot = new Lot(landnumber,rst.getString("lotNumber"), rst.getInt("numberOfAcres"),rst.getInt("NumberOfRoods"), rst.getInt("NumberOfPerches"),rst.getString("permitNumber"),rst.getString("permitIssueDate"),rst.getInt("is_p_certified"),rst.getString("grantNumber"),rst.getString("grantIssueDate"),searchLand );               
                 return lot;
             } else {
                 return null;

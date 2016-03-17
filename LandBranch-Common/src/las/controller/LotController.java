@@ -29,7 +29,7 @@ public interface LotController extends Remote {
 
     public boolean updateLot(Lot lot) throws RemoteException, SQLException,ClassNotFoundException;
 
-    public Lot getLastAddedLot() throws RemoteException, SQLException,ClassNotFoundException;
+    public Lot getLastAddedLot(String landnumber) throws RemoteException, SQLException,ClassNotFoundException;
 
     //Permit
     public boolean addNewPermit(Lot lot) throws RemoteException, SQLException, ClassNotFoundException;

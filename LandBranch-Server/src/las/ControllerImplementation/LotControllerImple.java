@@ -53,8 +53,8 @@ import las.models.NominatedSuccessor;
     }
 
     @Override
-    public Lot getLastAddedLot() throws RemoteException, SQLException, ClassNotFoundException {
-        return lotController.getLastAddedLot();
+    public Lot getLastAddedLot(String landnumber) throws RemoteException, SQLException, ClassNotFoundException {
+        return lotController.getLastAddedLot(landnumber);
     }
 
     @Override
