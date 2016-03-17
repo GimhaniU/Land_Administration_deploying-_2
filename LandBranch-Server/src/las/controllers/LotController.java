@@ -175,76 +175,14 @@ public class LotController {
             readWriteLock.writeLock().lock();
             boolean returnStatue = true;
             Connection conn = DBConnection.getDBConnection().getConnection();
-            conn.setAutoCommit(false);
-            try {
-                String sql = "Delete  from permit where permitNumber = '" + permit.getPermitNumber() + "'";
-                int returnPermitDelete = DBHandler.setData(conn, sql);
-                if (returnPermitDelete > 0) {
-                    System.out.println("permit delete");
-                    Client client = permit.getClient();
-                    // int position = ClientController.getnextOwnershiPositionPermit(permit.getPermitNumber());
-                    client.setPermitOwnershipPosition(0);
-                    int updateClient = ClientController.updateClient(client);
-                    if (updateClient > 0) {
-                        System.out.println("client updated");
-                        NominatedSuccessor nominatedSuccessor = permit.getNominatedSuccessor();
-                        boolean cancelPermit = NominatedSuccessorController.DeleteNominatedSuccessor(nominatedSuccessor.getNIC_S());
-                        if (cancelPermit) {
-                            System.out.println("succer delete");
-                            Lot lot = permit.getLot();
-                            lot.setIsAvilable(0);
-                            boolean updateLot = LotController.updateLot(lot);
-                            if (updateLot) {
-                                System.out.println("lotUpdated");
-                            } else {
-                                returnStatue = false;
-                                conn.rollback();
-                            }
-                        } else {
-                            returnStatue = false;
-                            conn.rollback();
-                        }
-
-                    } else {
-                        returnStatue = false;
-                        conn.rollback();
-                    }
-                } else {
-                    returnStatue = false;
-                    conn.rollback();
-                }
-
-                if (returnStatue) {
-                    conn.commit();
-                }
-
-            } catch (SQLException sqlExeption) {
-                returnStatue = false;
-                conn.rollback();
-            } finally {
-                conn.setAutoCommit(true);
-            }
+            
+            lot.setPermitNumber(null);
+            lot.setPermitIssueDate(null);
+            lot.setGrantNumber(null);
+            lot.setGrantIssueDate(null);
+            
+            returnStatue=updateLot(lot);
             return returnStatue;
-        } finally {
-            readWriteLock.writeLock().unlock();
-        }
-    }
-
-    public static Permit searchPermit(String permitNumber) throws ClassNotFoundException, SQLException {
-        try {
-            readWriteLock.readLock().lock();
-            Connection conn = DBConnection.getDBConnection().getConnection();
-            String sql = "Select * from Permit natural join client where PermitNumber='" + permitNumber + "' order by permitOwnershipPosition desc";
-            ResultSet rst = DBHandler.getData(conn, sql);
-            if (rst.next()) {
-                Client client = ClientController.searchClient(rst.getString("NIC"));
-                Lot searchLot = LotController.searchLot(rst.getString("LotNumber"));
-                NominatedSuccessor searchNominateSuccessor = NominatedSuccessorController.searchNominateSuccessor(rst.getString("NIC_Successor"));
-                Permit permit = new Permit(rst.getString("PermitNumber"), rst.getString("PermitIssueDate"), searchLot, client, searchNominateSuccessor);
-                return permit;
-            } else {
-                return null;
-            }
         } finally {
             readWriteLock.readLock().unlock();
         }
@@ -255,7 +193,7 @@ public class LotController {
             readWriteLock.readLock().lock();
 
             Connection conn = DBConnection.getDBConnection().getConnection();
-            String sql = "select count(distinct permitNumber) as permitCount from permit natural join lot natural join land where divisionNumber ='" + divisionNumber + "'";
+            String sql = "select count(distinct permitNumber) as permitCount from lot natural join land where divisionNumber ='" + divisionNumber + "'";
             ResultSet rst = DBHandler.getData(conn, sql);
             int permitCount = 0;
             if (rst.next()) {
@@ -269,20 +207,18 @@ public class LotController {
         }
     }
 
-    public static ArrayList<Permit> getSimilarPermitNumbers(String permitNumberPart) throws ClassNotFoundException, SQLException {
+    public static ArrayList<Lot> getSimilarPermitNumbers(String permitNumberPart) throws ClassNotFoundException, SQLException {
         try {
 
             readWriteLock.readLock().lock();
             Connection conn = DBConnection.getDBConnection().getConnection();
-            String sql = "Select * From permit where permitNumber like '" + permitNumberPart + "%'  order by permitNumber limit 10";
+            String sql = "Select * From lot where permitNumber like '" + permitNumberPart + "%'  order by permitNumber limit 10";
             ResultSet rst = DBHandler.getData(conn, sql);
-            ArrayList<Permit> permitList = new ArrayList<>();
+            ArrayList<Lot> permitList = new ArrayList<>();
             while (rst.next()) {
-                Client searchClient = ClientController.searchClient(rst.getString("NIC"));
-                Lot searchLot = LotController.searchLot(rst.getString("LotNumber"));
-                NominatedSuccessor searchNominateSuccessor = NominatedSuccessorController.searchNominateSuccessor(rst.getString("NIC_Successor"));
-                Permit permit = new Permit(rst.getString("PermitNumber"), rst.getString("PermitIssueDate"), searchLot, searchClient, searchNominateSuccessor);
-                permitList.add(permit);
+                Client client=ClientController.searchClientByLot(rst.getString("landnumber"), rst.getString("lotnumber"));
+                Lot lot=new Lot(rst.getString("landnumber"),rst.getString("lotnumber"),rst.getInt("numberofacres"),rst.getInt("numberofroods"),rst.getInt("numberofperches"), rst.getString("permitnumber"),rst.getString("permitissuedate"), rst.getInt("is_p_certified"), rst.getString("grantnumber"), rst.getString("grantissuedate"), client);
+                permitList.add(lot);
             }
             return permitList;
         } finally {
@@ -290,19 +226,17 @@ public class LotController {
         }
     }
 
-    public static ArrayList<Permit> getAllPermit() throws ClassNotFoundException, SQLException {
+    public static ArrayList<Lot> getAllPermit() throws ClassNotFoundException, SQLException {
         try {
             readWriteLock.readLock().lock();
             Connection conn = DBConnection.getDBConnection().getConnection();
-            String sql = "Select * From permit";
+            String sql = "Select * From lot where permitnumber is not null";
             ResultSet rst = DBHandler.getData(conn, sql);
-            ArrayList<Permit> permitList = new ArrayList<>();
+            ArrayList<Lot> permitList = new ArrayList<>();
             while (rst.next()) {
-                Client searchClient = ClientController.searchClient(rst.getString("NIC"));
-                Lot searchLot = LotController.searchLot(rst.getString("LotNumber"));
-                NominatedSuccessor searchNominateSuccessor = NominatedSuccessorController.searchNominateSuccessor(rst.getString("NIC_Successor"));
-                Permit permit = new Permit(rst.getString("PermitNumber"), rst.getString("PermitIssueDate"), searchLot, searchClient, searchNominateSuccessor);
-                permitList.add(permit);
+                Client client=ClientController.searchClientByLot(rst.getString("landnumber"), rst.getString("lotnumber"));
+                Lot lot=new Lot(rst.getString("landnumber"),rst.getString("lotnumber"),rst.getInt("numberofacres"),rst.getInt("numberofroods"),rst.getInt("numberofperches"), rst.getString("permitnumber"),rst.getString("permitissuedate"), rst.getInt("is_p_certified"), rst.getString("grantnumber"), rst.getString("grantissuedate"), client);
+                permitList.add(lot);
             }
             return permitList;
         } finally {
@@ -311,39 +245,32 @@ public class LotController {
     }
 
     //*******************************************//
-    public static Permit searchPermitByClient(String NIC) throws ClassNotFoundException, SQLException {
+    public static Lot searchPermitByClient(String RegNo) throws ClassNotFoundException, SQLException {
         try {
             readWriteLock.readLock().lock();
             Connection conn = DBConnection.getDBConnection().getConnection();
-            String sql = "Select * from Permit where NIC='" + NIC + "'";
-            ResultSet rst = DBHandler.getData(conn, sql);
-            if (rst.next()) {
-                Client client = ClientController.searchClient(rst.getString("NIC"));
-                Lot searchLot = LotController.searchLot(rst.getString("LotNumber"));
-                NominatedSuccessor searchNominateSuccessor = NominatedSuccessorController.searchNominateSuccessor(rst.getString("NIC_Successor"));
-                Permit permit = new Permit(rst.getString("PermitNumber"), rst.getString("PermitIssueDate"), searchLot, client, searchNominateSuccessor);
-                return permit;
-            } else {
-                return null;
+            Client client = ClientController.searchClient(RegNo);
+            Lot searchLot=null;
+            if(client!=null){
+                searchLot = LotController.searchLot(client.getLandnumber(),client.getLotnumber());
             }
+            return searchLot;
         } finally {
             readWriteLock.readLock().unlock();
         }
     }
 
-    public static ArrayList<Permit> getSimilarPermitsByName(String namepart) throws ClassNotFoundException, SQLException {
+    public static ArrayList<Lot> getSimilarPermitsByName(String namepart) throws ClassNotFoundException, SQLException {
         try {
             readWriteLock.readLock().lock();
             Connection conn = DBConnection.getDBConnection().getConnection();
-            String sql = "Select * from client right join permit on client.NIC=permit.NIC where ClientName like '" + namepart + "%'";
+            String sql = "Select * from client natural join lot  where ClientName like '" + namepart + "%'";
             ResultSet rst = DBHandler.getData(conn, sql);
-            ArrayList<Permit> permitList = new ArrayList<>();
+            ArrayList<Lot> permitList = new ArrayList<>();
             while (rst.next()) {
-                Client searchClient = ClientController.searchClient(rst.getString("NIC"));
-                Lot searchLot = LotController.searchLot(rst.getString("LotNumber"));
-                NominatedSuccessor searchNominateSuccessor = NominatedSuccessorController.searchNominateSuccessor(rst.getString("NIC_Successor"));
-                Permit permit = new Permit(rst.getString("PermitNumber"), rst.getString("PermitIssueDate"), searchLot, searchClient, searchNominateSuccessor);
-                permitList.add(permit);
+                Client searchClient = new Client(rst.getInt("RegNo"), rst.getString("ClientName"), rst.getString("NIC"), rst.getString("LandNumber"), rst.getString("LotNumber"), rst.getString("Address"), rst.getDouble("AnnualIncome"), rst.getInt("PermitOwnershipPosition"), rst.getInt("GrantOwnershipPosition"), rst.getInt("MarriedStatus"), rst.getString("SpouseName"), rst.getInt("Gender"), rst.getInt("NumberOfMarriedSons"), rst.getInt("NumberOfUnmarriedSons"));
+                Lot searchLot = new Lot(rst.getString("landnumber"), rst.getString("lotNumber"), rst.getInt("numberOfAcres"), rst.getInt("NumberOfRoods"), rst.getInt("NumberOfPerches"), rst.getString("permitNumber"), rst.getString("permitIssueDate"), rst.getInt("is_p_certified"), rst.getString("grantNumber"), rst.getString("grantIssueDate"), searchClient);
+                permitList.add(searchLot);
             }
             return permitList;
         } finally {
@@ -351,40 +278,35 @@ public class LotController {
         }
     }
 
-    public static ArrayList<Permit> getSimilarPermitsByNIC(String nicpart) throws ClassNotFoundException, SQLException {
+    public static ArrayList<Lot> getSimilarPermitsByNIC(String nicpart) throws ClassNotFoundException, SQLException {
         try {
             readWriteLock.readLock().lock();
             Connection conn = DBConnection.getDBConnection().getConnection();
-            String sql = "Select * from client right join permit on client.NIC=permit.NIC where client.NIC like '%" + nicpart + "%'";
+            String sql = "Select * from client natural join lot  where NIC like '" + nicpart + "%'";
             ResultSet rst = DBHandler.getData(conn, sql);
-            ArrayList<Permit> permitList = new ArrayList<>();
+            ArrayList<Lot> permitList = new ArrayList<>();
             while (rst.next()) {
-                Client searchClient = ClientController.searchClient(rst.getString("NIC"));
-                Lot searchLot = LotController.searchLot(rst.getString("LotNumber"));
-                NominatedSuccessor searchNominateSuccessor = NominatedSuccessorController.searchNominateSuccessor(rst.getString("NIC_Successor"));
-                Permit permit = new Permit(rst.getString("PermitNumber"), rst.getString("PermitIssueDate"), searchLot, searchClient, searchNominateSuccessor);
-                permitList.add(permit);
+                Client searchClient = new Client(rst.getInt("RegNo"), rst.getString("ClientName"), rst.getString("NIC"), rst.getString("LandNumber"), rst.getString("LotNumber"), rst.getString("Address"), rst.getDouble("AnnualIncome"), rst.getInt("PermitOwnershipPosition"), rst.getInt("GrantOwnershipPosition"), rst.getInt("MarriedStatus"), rst.getString("SpouseName"), rst.getInt("Gender"), rst.getInt("NumberOfMarriedSons"), rst.getInt("NumberOfUnmarriedSons"));
+                Lot searchLot = new Lot(rst.getString("landnumber"), rst.getString("lotNumber"), rst.getInt("numberOfAcres"), rst.getInt("NumberOfRoods"), rst.getInt("NumberOfPerches"), rst.getString("permitNumber"), rst.getString("permitIssueDate"), rst.getInt("is_p_certified"), rst.getString("grantNumber"), rst.getString("grantIssueDate"), searchClient);
+                permitList.add(searchLot);
             }
             return permitList;
-
         } finally {
             readWriteLock.readLock().unlock();
         }
     }
 
-    public static Permit searchPermitByNominatedSuccessor(String NIC) throws ClassNotFoundException, SQLException {
+    public static Lot searchPermitByNominatedSuccessor(String NIC) throws ClassNotFoundException, SQLException {
         try {
             readWriteLock.readLock().lock();
 
             Connection conn = DBConnection.getDBConnection().getConnection();
-            String sql = "Select * from Permit where NIC_Successor='" + NIC + "'";
+            String sql = "Select * from nominatedsuccessor n  join client c  join lot l on n.regno=c.regno and c.landnumber=l.landnumber and c.lotnumber=l.lotnumber  where NIC_S='" + NIC + "'";
             ResultSet rst = DBHandler.getData(conn, sql);
             if (rst.next()) {
-                Client client = ClientController.searchClient(rst.getString("NIC"));
-                Lot searchLot = LotController.searchLot(rst.getString("LotNumber"));
-                NominatedSuccessor searchNominateSuccessor = NominatedSuccessorController.searchNominateSuccessor(rst.getString("NIC_Successor"));
-                Permit permit = new Permit(rst.getString("PermitNumber"), rst.getString("PermitIssueDate"), searchLot, client, searchNominateSuccessor);
-                return permit;
+                Client searchClient = new Client(rst.getInt("RegNo"), rst.getString("ClientName"), rst.getString("NIC"), rst.getString("LandNumber"), rst.getString("LotNumber"), rst.getString("Address"), rst.getDouble("AnnualIncome"), rst.getInt("PermitOwnershipPosition"), rst.getInt("GrantOwnershipPosition"), rst.getInt("MarriedStatus"), rst.getString("SpouseName"), rst.getInt("Gender"), rst.getInt("NumberOfMarriedSons"), rst.getInt("NumberOfUnmarriedSons"));
+                Lot searchLot = new Lot(rst.getString("landnumber"), rst.getString("lotNumber"), rst.getInt("numberOfAcres"), rst.getInt("NumberOfRoods"), rst.getInt("NumberOfPerches"), rst.getString("permitNumber"), rst.getString("permitIssueDate"), rst.getInt("is_p_certified"), rst.getString("grantNumber"), rst.getString("grantIssueDate"), searchClient);
+                return searchLot;
             } else {
                 return null;
             }

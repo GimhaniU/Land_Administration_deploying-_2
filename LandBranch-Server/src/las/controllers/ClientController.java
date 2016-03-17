@@ -122,6 +122,23 @@ public class ClientController {
             readWriteLock.readLock().unlock();
         }
     }
+    public static Client searchClientByLot(String landnumber,String lotnumber) throws ClassNotFoundException, SQLException {
+        try {
+            readWriteLock.readLock().lock();
+
+            Connection conn = DBConnection.getDBConnection().getConnection();
+            String sql = "Select * from Client where landnumber='"+landnumber+"' and lotnumber='"+lotnumber+"'";
+            ResultSet rst = DBHandler.getData(conn, sql);
+            if (rst.next()) {
+                Client client = new Client(rst.getInt("RegNo"), rst.getString("ClientName"), rst.getString("NIC"), rst.getString("LandNumber"), rst.getString("LotNumber"), rst.getString("Address"), rst.getDouble("AnnualIncome"), rst.getInt("PermitOwnershipPosition"), rst.getInt("GrantOwnershipPosition"), rst.getInt("MarriedStatus"), rst.getString("SpouseName"), rst.getInt("Gender"), rst.getInt("NumberOfMarriedSons"), rst.getInt("NumberOfUnmarriedSons"));
+                return client;
+            } else {
+                return null;
+            }
+        } finally {
+            readWriteLock.readLock().unlock();
+        }
+    }
 
     public static ArrayList<Client> getSimmilarNICs(String nicPart) throws ClassNotFoundException, SQLException {
         try {
