@@ -6,6 +6,7 @@
 package las.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  *
@@ -27,7 +28,7 @@ public class Client implements Serializable{
     private int gender;
     private int numberOfMarriedSons;
     private int numberOfUnmarriedSons;
-
+    private ArrayList<NominatedSuccessor> nominatedsuccessorlist;
     
     
 
@@ -52,6 +53,33 @@ public class Client implements Serializable{
         this.numberOfUnmarriedSons = numberOfUnmarriedSons;
     }
 
+    public Client(int regNo, String clientName, String NIC, String landnumber, String lotnumber, String address, double annualIncome, int permitOwnershipPosition, int grantOwnershipPosition, int marriedStatus, String spouseName, int gender, int numberOfMarriedSons, int numberOfUnmarriedSons, ArrayList<NominatedSuccessor> nominatedsuccessorlist) {
+        this.regNo = regNo;
+        this.clientName = clientName;
+        this.NIC = NIC;
+        this.landnumber = landnumber;
+        this.lotnumber = lotnumber;
+        this.address = address;
+        this.annualIncome = annualIncome;
+        this.permitOwnershipPosition = permitOwnershipPosition;
+        this.grantOwnershipPosition = grantOwnershipPosition;
+        this.marriedStatus = marriedStatus;
+        this.spouseName = spouseName;
+        this.gender = gender;
+        this.numberOfMarriedSons = numberOfMarriedSons;
+        this.numberOfUnmarriedSons = numberOfUnmarriedSons;
+        this.nominatedsuccessorlist = nominatedsuccessorlist;
+    }
+
+    public ArrayList<NominatedSuccessor> getNominatedsuccessorlist() {
+        return nominatedsuccessorlist;
+    }
+
+    public void setNominatedsuccessorlist(ArrayList<NominatedSuccessor> nominatedsuccessorlist) {
+        this.nominatedsuccessorlist = nominatedsuccessorlist;
+    }
+    
+    
 
     public int getRegNo() {
         return regNo;

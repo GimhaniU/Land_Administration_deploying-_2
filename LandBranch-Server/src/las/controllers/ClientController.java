@@ -24,22 +24,63 @@ public class ClientController {
 
     private static final ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 
-    public static boolean addNewClient(Client client,Lot lot,ArrayList<NominatedSuccessor> nominatedSuccessors) throws ClassNotFoundException, SQLException {
-        
-        
-        
-        
+    public static boolean addNewClient(Client client, Lot lot, ArrayList<NominatedSuccessor> nominatedSuccessors) throws ClassNotFoundException, SQLException {
+
         try {
             readWriteLock.writeLock().lock();
             Connection conn = DBConnection.getDBConnection().getConnection();
-            
-            
-            
-            
-            String sql = "Insert into Client Values('"+client.getRegNo()+"','" + client.getClientName()+ "','" + client.getNIC()+ "','" + client.getLandnumber() + "','" + client.getLotnumber() + "','" + client.getAddress() + "','" + client.getAnnualIncome() + "','" + client.getPermitOwnershipPosition()+ "','" + client.getGrantOwnershipPosition()+ "','" + client.isMarried() + "','"+client.getSpouseName()+"','"+client.getGender()+"','" + client.getNumberOfMarriedSons() + "','" + client.getNumberOfUnmarriedSons() + "')";
+
+            String sql = "Insert into Client Values('" + client.getRegNo() + "','" + client.getClientName() + "','" + client.getNIC() + "','" + client.getLandnumber() + "','" + client.getLotnumber() + "','" + client.getAddress() + "','" + client.getAnnualIncome() + "','" + client.getPermitOwnershipPosition() + "','" + client.getGrantOwnershipPosition() + "','" + client.isMarried() + "','" + client.getSpouseName() + "','" + client.getGender() + "','" + client.getNumberOfMarriedSons() + "','" + client.getNumberOfUnmarriedSons() + "')";
             int returnValue = DBHandler.setData(conn, sql);
 
             return returnValue > 0;
+
+        } finally {
+            readWriteLock.writeLock().unlock();
+        }
+    }
+
+    public static boolean addNewClient(Client client) throws ClassNotFoundException, SQLException {
+
+        try {
+            readWriteLock.writeLock().lock();
+            boolean addNewClient = true;
+            Connection conn = DBConnection.getDBConnection().getConnection();
+            conn.setAutoCommit(false);
+
+            try {
+                String sql = "Insert into Client Values('" + client.getRegNo() + "','" + client.getClientName() + "','" + client.getNIC() + "','" + client.getLandnumber() + "','" + client.getLotnumber() + "','" + client.getAddress() + "','" + client.getAnnualIncome() + "','" + client.getPermitOwnershipPosition() + "','" + client.getGrantOwnershipPosition() + "','" + client.isMarried() + "','" + client.getSpouseName() + "','" + client.getGender() + "','" + client.getNumberOfMarriedSons() + "','" + client.getNumberOfUnmarriedSons() + "')";
+                int returnValue = DBHandler.setData(conn, sql);
+                if (returnValue > 0) {
+                    for(NominatedSuccessor successor:client.getNominatedsuccessorlist()){
+                        boolean addNewNominateSuccessor = NominatedSuccessorController.addNewNominateSuccessor(successor);
+                        if(!addNewNominateSuccessor){
+                           addNewClient = false;
+                            break;
+                        }
+                    }
+                    if(!addNewClient){
+                        addNewClient = false;
+                        conn.rollback();
+                    }else{
+                        System.out.println("Client added successfully");
+                    }
+                } else {
+                    addNewClient = false;
+                    conn.rollback();
+                }
+                //return returnValue > 0;
+                if (addNewClient) {
+                    conn.commit();
+                }
+
+            } catch (SQLException sqlExeption) {
+                addNewClient = false;
+                conn.rollback();
+            } finally {
+                conn.setAutoCommit(true);
+            }
+            return addNewClient;
 
         } finally {
             readWriteLock.writeLock().unlock();
@@ -54,7 +95,7 @@ public class ClientController {
             String sql = "Select * from Client where NIC='" + NIC + "'";
             ResultSet rst = DBHandler.getData(conn, sql);
             if (rst.next()) {
-                Client client = new Client(rst.getInt("RegNo"),rst.getString("ClientName"), rst.getString("NIC"), rst.getString("LandNumber"), rst.getString("LotNumber"), rst.getString("Address"), rst.getDouble("AnnualIncome"), rst.getInt("PermitOwnershipPosition"), rst.getInt("GrantOwnershipPosition"), rst.getInt("MarriedStatus"),rst.getString("SpouseName") ,rst.getInt("Gender"),rst.getInt("NumberOfMarriedSons"), rst.getInt("NumberOfUnmarriedSons"));
+                Client client = new Client(rst.getInt("RegNo"), rst.getString("ClientName"), rst.getString("NIC"), rst.getString("LandNumber"), rst.getString("LotNumber"), rst.getString("Address"), rst.getDouble("AnnualIncome"), rst.getInt("PermitOwnershipPosition"), rst.getInt("GrantOwnershipPosition"), rst.getInt("MarriedStatus"), rst.getString("SpouseName"), rst.getInt("Gender"), rst.getInt("NumberOfMarriedSons"), rst.getInt("NumberOfUnmarriedSons"));
                 return client;
             } else {
                 return null;
@@ -63,7 +104,7 @@ public class ClientController {
             readWriteLock.readLock().unlock();
         }
     }
-    
+
     public static Client searchClient(String regNo) throws ClassNotFoundException, SQLException {
         try {
             readWriteLock.readLock().lock();
@@ -72,7 +113,7 @@ public class ClientController {
             String sql = "Select * from Client where regNo='" + regNo + "'";
             ResultSet rst = DBHandler.getData(conn, sql);
             if (rst.next()) {
-                Client client = new Client(rst.getInt("RegNo"),rst.getString("ClientName"), rst.getString("NIC"), rst.getString("LandNumber"), rst.getString("LotNumber"), rst.getString("Address"), rst.getDouble("AnnualIncome"), rst.getInt("PermitOwnershipPosition"), rst.getInt("GrantOwnershipPosition"), rst.getInt("MarriedStatus"),rst.getString("SpouseName") ,rst.getInt("Gender"),rst.getInt("NumberOfMarriedSons"), rst.getInt("NumberOfUnmarriedSons"));
+                Client client = new Client(rst.getInt("RegNo"), rst.getString("ClientName"), rst.getString("NIC"), rst.getString("LandNumber"), rst.getString("LotNumber"), rst.getString("Address"), rst.getDouble("AnnualIncome"), rst.getInt("PermitOwnershipPosition"), rst.getInt("GrantOwnershipPosition"), rst.getInt("MarriedStatus"), rst.getString("SpouseName"), rst.getInt("Gender"), rst.getInt("NumberOfMarriedSons"), rst.getInt("NumberOfUnmarriedSons"));
                 return client;
             } else {
                 return null;
@@ -91,7 +132,7 @@ public class ClientController {
             ResultSet rst = DBHandler.getData(conn, sql);
             ArrayList<Client> clientList = new ArrayList<>();
             while (rst.next()) {
-                Client client = new Client(rst.getInt("RegNo"),rst.getString("ClientName"), rst.getString("NIC"), rst.getString("LandNumber"), rst.getString("LotNumber"), rst.getString("Address"), rst.getDouble("AnnualIncome"), rst.getInt("PermitOwnershipPosition"), rst.getInt("GrantOwnershipPosition"), rst.getInt("MarriedStatus"),rst.getString("SpouseName") ,rst.getInt("Gender"),rst.getInt("NumberOfMarriedSons"), rst.getInt("NumberOfUnmarriedSons"));         
+                Client client = new Client(rst.getInt("RegNo"), rst.getString("ClientName"), rst.getString("NIC"), rst.getString("LandNumber"), rst.getString("LotNumber"), rst.getString("Address"), rst.getDouble("AnnualIncome"), rst.getInt("PermitOwnershipPosition"), rst.getInt("GrantOwnershipPosition"), rst.getInt("MarriedStatus"), rst.getString("SpouseName"), rst.getInt("Gender"), rst.getInt("NumberOfMarriedSons"), rst.getInt("NumberOfUnmarriedSons"));
                 clientList.add(client);
             }
             return clientList;
@@ -110,7 +151,7 @@ public class ClientController {
             ResultSet rst = DBHandler.getData(conn, sql);
             ArrayList<Client> clientList = new ArrayList<>();
             while (rst.next()) {
-                Client client = new Client(rst.getInt("RegNo"),rst.getString("ClientName"), rst.getString("NIC"), rst.getString("LandNumber"), rst.getString("LotNumber"), rst.getString("Address"), rst.getDouble("AnnualIncome"), rst.getInt("PermitOwnershipPosition"), rst.getInt("GrantOwnershipPosition"), rst.getInt("MarriedStatus"),rst.getString("SpouseName") ,rst.getInt("Gender"),rst.getInt("NumberOfMarriedSons"), rst.getInt("NumberOfUnmarriedSons"));
+                Client client = new Client(rst.getInt("RegNo"), rst.getString("ClientName"), rst.getString("NIC"), rst.getString("LandNumber"), rst.getString("LotNumber"), rst.getString("Address"), rst.getDouble("AnnualIncome"), rst.getInt("PermitOwnershipPosition"), rst.getInt("GrantOwnershipPosition"), rst.getInt("MarriedStatus"), rst.getString("SpouseName"), rst.getInt("Gender"), rst.getInt("NumberOfMarriedSons"), rst.getInt("NumberOfUnmarriedSons"));
                 clientList.add(client);
             }
             return clientList;
@@ -126,7 +167,7 @@ public class ClientController {
             readWriteLock.writeLock().lock();
 
             Connection conn = DBConnection.getDBConnection().getConnection();
-            String sql = "Update  Client Set  clientName='" + client.getClientName() + "', NIC='" + client.getNIC()+ "',LandNumber='" + client.getLandnumber()+ "', LotNumber='" + client.getLotnumber()+ "',Address='"+client.getAddress()+"', AnnualIncome='" + client.getAnnualIncome() + "',PermitOwnershipPosition='" + client.getPermitOwnershipPosition() + "', GrantOwnershipPosition='" + client.getGrantOwnershipPosition() + "',MarriedStatus='" + client.isMarried() + "',SpouseName='"+client.getSpouseName()+"',Gender='"+client.getGender()+"',NumberOfMarriedSons='" + client.getNumberOfMarriedSons() + "',NumberOfUnmarriedSons='" + client.getNumberOfUnmarriedSons() + "' Where RegNo ='" + client.getRegNo()+ "'";
+            String sql = "Update  Client Set  clientName='" + client.getClientName() + "', NIC='" + client.getNIC() + "',LandNumber='" + client.getLandnumber() + "', LotNumber='" + client.getLotnumber() + "',Address='" + client.getAddress() + "', AnnualIncome='" + client.getAnnualIncome() + "',PermitOwnershipPosition='" + client.getPermitOwnershipPosition() + "', GrantOwnershipPosition='" + client.getGrantOwnershipPosition() + "',MarriedStatus='" + client.isMarried() + "',SpouseName='" + client.getSpouseName() + "',Gender='" + client.getGender() + "',NumberOfMarriedSons='" + client.getNumberOfMarriedSons() + "',NumberOfUnmarriedSons='" + client.getNumberOfUnmarriedSons() + "' Where RegNo ='" + client.getRegNo() + "'";
             int res = DBHandler.setData(conn, sql);
             return res;
         } finally {
@@ -142,7 +183,7 @@ public class ClientController {
             ResultSet rst = DBHandler.getData(conn, sql);
             ArrayList<Client> clientList = new ArrayList<>();
             while (rst.next()) {
-                Client client = new Client(rst.getInt("RegNo"),rst.getString("ClientName"), rst.getString("NIC"), rst.getString("LandNumber"), rst.getString("LotNumber"), rst.getString("Address"), rst.getDouble("AnnualIncome"), rst.getInt("PermitOwnershipPosition"), rst.getInt("GrantOwnershipPosition"), rst.getInt("MarriedStatus"),rst.getString("SpouseName") ,rst.getInt("Gender"),rst.getInt("NumberOfMarriedSons"), rst.getInt("NumberOfUnmarriedSons"));
+                Client client = new Client(rst.getInt("RegNo"), rst.getString("ClientName"), rst.getString("NIC"), rst.getString("LandNumber"), rst.getString("LotNumber"), rst.getString("Address"), rst.getDouble("AnnualIncome"), rst.getInt("PermitOwnershipPosition"), rst.getInt("GrantOwnershipPosition"), rst.getInt("MarriedStatus"), rst.getString("SpouseName"), rst.getInt("Gender"), rst.getInt("NumberOfMarriedSons"), rst.getInt("NumberOfUnmarriedSons"));
                 clientList.add(client);
             }
             return clientList;
@@ -159,7 +200,7 @@ public class ClientController {
             String sql = "Select * From Client order by RegNo Desc limit 1";
             ResultSet rst = DBHandler.getData(conn, sql);
             if (rst.next()) {
-                Client client = new Client(rst.getInt("RegNo"),rst.getString("ClientName"), rst.getString("NIC"), rst.getString("LandNumber"), rst.getString("LotNumber"), rst.getString("Address"), rst.getDouble("AnnualIncome"), rst.getInt("PermitOwnershipPosition"), rst.getInt("GrantOwnershipPosition"), rst.getInt("MarriedStatus"),rst.getString("SpouseName") ,rst.getInt("Gender"),rst.getInt("NumberOfMarriedSons"), rst.getInt("NumberOfUnmarriedSons"));
+                Client client = new Client(rst.getInt("RegNo"), rst.getString("ClientName"), rst.getString("NIC"), rst.getString("LandNumber"), rst.getString("LotNumber"), rst.getString("Address"), rst.getDouble("AnnualIncome"), rst.getInt("PermitOwnershipPosition"), rst.getInt("GrantOwnershipPosition"), rst.getInt("MarriedStatus"), rst.getString("SpouseName"), rst.getInt("Gender"), rst.getInt("NumberOfMarriedSons"), rst.getInt("NumberOfUnmarriedSons"));
                 return client;
             } else {
                 return null;
@@ -212,8 +253,8 @@ public class ClientController {
             ResultSet rst = DBHandler.getData(conn, sql);
             ArrayList<Client> clientList = new ArrayList<>();
             while (rst.next()) {
-                
-                Client client = new Client(rst.getInt("RegNo"),rst.getString("ClientName"), rst.getString("NIC"), rst.getString("LandNumber"), rst.getString("LotNumber"), rst.getString("Address"), rst.getDouble("AnnualIncome"), rst.getInt("PermitOwnershipPosition"), rst.getInt("GrantOwnershipPosition"), rst.getInt("MarriedStatus"),rst.getString("SpouseName") ,rst.getInt("Gender"),rst.getInt("NumberOfMarriedSons"), rst.getInt("NumberOfUnmarriedSons"));
+
+                Client client = new Client(rst.getInt("RegNo"), rst.getString("ClientName"), rst.getString("NIC"), rst.getString("LandNumber"), rst.getString("LotNumber"), rst.getString("Address"), rst.getDouble("AnnualIncome"), rst.getInt("PermitOwnershipPosition"), rst.getInt("GrantOwnershipPosition"), rst.getInt("MarriedStatus"), rst.getString("SpouseName"), rst.getInt("Gender"), rst.getInt("NumberOfMarriedSons"), rst.getInt("NumberOfUnmarriedSons"));
                 clientList.add(client);
             }
             return clientList;

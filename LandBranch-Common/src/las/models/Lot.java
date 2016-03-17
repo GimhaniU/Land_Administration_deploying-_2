@@ -19,7 +19,7 @@ public class Lot implements Serializable {
     private int numberOfPerches;
     private String permitNumber;
     private String permitIssueDate;
-    private int is_p_certified=0;
+    private int is_p_certified;
     private String grantNumber;
     private String grantIssueDate;
     
@@ -27,7 +27,7 @@ public class Lot implements Serializable {
     private Client client;
     private Land land;
 
-    public Lot(String landNumber, String lotNumber, int numberOfAcres, int numberofRoods, int numberOfPerches, String permitNumber, String permitIssueDate, String grantNumber, String grantIssueDate, Client client, Land land) {
+    public Lot(String landNumber, String lotNumber, int numberOfAcres, int numberofRoods, int numberOfPerches, String permitNumber, String permitIssueDate, int is_p_certified, String grantNumber, String grantIssueDate, Client client, Land land) {
         this.landNumber = landNumber;
         this.lotNumber = lotNumber;
         this.numberOfAcres = numberOfAcres;
@@ -35,23 +35,14 @@ public class Lot implements Serializable {
         this.numberOfPerches = numberOfPerches;
         this.permitNumber = permitNumber;
         this.permitIssueDate = permitIssueDate;
+        this.is_p_certified = is_p_certified;
         this.grantNumber = grantNumber;
         this.grantIssueDate = grantIssueDate;
         this.client = client;
         this.land = land;
     }
 
-    
-    
-    public Lot(String landNumber, String lotNumber, int numberOfAcres, int numberofRoods, int numberOfPerches) {
-        this.landNumber = landNumber;
-        this.lotNumber = lotNumber;
-        this.numberOfAcres = numberOfAcres;
-        this.numberofRoods = numberofRoods;
-        this.numberOfPerches = numberOfPerches;
-    }
-
-    public Lot(String landNumber, String lotNumber, int numberOfAcres, int numberofRoods, int numberOfPerches, String permitNumber, String permitIssueDate, String grantNumber, String grantIssueDate) {
+    public Lot(String landNumber, String lotNumber, int numberOfAcres, int numberofRoods, int numberOfPerches, String permitNumber, String permitIssueDate, int is_p_certified, String grantNumber, String grantIssueDate, Client client) {
         this.landNumber = landNumber;
         this.lotNumber = lotNumber;
         this.numberOfAcres = numberOfAcres;
@@ -59,11 +50,13 @@ public class Lot implements Serializable {
         this.numberOfPerches = numberOfPerches;
         this.permitNumber = permitNumber;
         this.permitIssueDate = permitIssueDate;
+        this.is_p_certified = is_p_certified;
         this.grantNumber = grantNumber;
         this.grantIssueDate = grantIssueDate;
+        this.client = client;
     }
 
-    public Lot(String landNumber, String lotNumber, int numberOfAcres, int numberofRoods, int numberOfPerches, String permitNumber, String permitIssueDate, String grantNumber, String grantIssueDate, Land land) {
+    public Lot(String landNumber, String lotNumber, int numberOfAcres, int numberofRoods, int numberOfPerches, String permitNumber, String permitIssueDate, int is_p_certified, String grantNumber, String grantIssueDate, Land land) {
         this.landNumber = landNumber;
         this.lotNumber = lotNumber;
         this.numberOfAcres = numberOfAcres;
@@ -71,12 +64,13 @@ public class Lot implements Serializable {
         this.numberOfPerches = numberOfPerches;
         this.permitNumber = permitNumber;
         this.permitIssueDate = permitIssueDate;
+        this.is_p_certified = is_p_certified;
         this.grantNumber = grantNumber;
         this.grantIssueDate = grantIssueDate;
         this.land = land;
     }
     
-    public Lot(String landNumber, String lotNumber, int numberOfAcres, int numberofRoods, int numberOfPerches, String permitNumber, String permitIssueDate, String grantNumber, String grantIssueDate, Client client) {
+    public Lot(String landNumber, String lotNumber, int numberOfAcres, int numberofRoods, int numberOfPerches, String permitNumber, String permitIssueDate, int is_p_certified, String grantNumber, String grantIssueDate) {
         this.landNumber = landNumber;
         this.lotNumber = lotNumber;
         this.numberOfAcres = numberOfAcres;
@@ -84,10 +78,12 @@ public class Lot implements Serializable {
         this.numberOfPerches = numberOfPerches;
         this.permitNumber = permitNumber;
         this.permitIssueDate = permitIssueDate;
+        this.is_p_certified = is_p_certified;
         this.grantNumber = grantNumber;
         this.grantIssueDate = grantIssueDate;
-        this.client = client;
     }
+    
+    
 
     public Client getClient() {
         return client;
